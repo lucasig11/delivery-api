@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -26,5 +27,10 @@ export class DeliveryController {
       items,
       clientId,
     });
+  }
+
+  @Get('available')
+  async findAvailable() {
+    return this.deliveryService.findAvailable();
   }
 }

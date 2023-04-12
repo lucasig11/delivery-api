@@ -30,4 +30,15 @@ describe('DeliveryService', () => {
     expect(delivery).toBeDefined();
     expect(delivery.clientId).toBe('randomClientId');
   });
+
+  it('should find available deliveries', async () => {
+    await service.create({
+      clientId: 'randomClientId',
+      items: ['item1'],
+    });
+    const deliveries = await service.findAvailable();
+
+    expect(deliveries).toBeDefined();
+    expect(deliveries.length).toBe(1);
+  });
 });

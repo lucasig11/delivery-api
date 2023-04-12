@@ -10,4 +10,8 @@ export class DeliveryService {
   async create(dto: CreateDeliveryDTO): Promise<Delivery> {
     return this.deliveryRepository.create(dto);
   }
+
+  async findAvailable(): Promise<Delivery[]> {
+    return this.deliveryRepository.findAvailable();
+  }
 }

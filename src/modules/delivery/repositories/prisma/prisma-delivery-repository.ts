@@ -16,4 +16,13 @@ export class PrismaDeliveryRepository implements DeliveryRepository {
       },
     });
   }
+
+  async findAvailable(): Promise<Delivery[]> {
+    return this.prisma.delivery.findMany({
+      where: {
+        deliverymanId: null,
+        endedAt: null,
+      },
+    });
+  }
 }
