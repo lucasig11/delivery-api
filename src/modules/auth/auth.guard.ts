@@ -8,6 +8,8 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { jwtConstants } from './constants';
 
+type Payload = { sub: string };
+
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
@@ -19,9 +21,9 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException('Missing token.');
     }
     try {
-      const { sub } = await this.jwtService.verifyAsync(token, {
+      const { sub } = this.jwtService.verify(token, {
         secret: jwtConstants.secret,
-      });
+      }) as Payload;
       request['user'] = sub;
     } catch {
       throw new UnauthorizedException('Invalid token.');
