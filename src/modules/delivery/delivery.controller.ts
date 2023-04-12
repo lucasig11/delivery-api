@@ -1,4 +1,12 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { AuthGuard } from '../auth/auth.guard';
 import { DeliveryService } from './delivery.service';
@@ -10,6 +18,7 @@ export class DeliveryController {
   constructor(private deliveryService: DeliveryService) {}
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   @UseGuards(AuthGuard)
   async create(@Req() req: Request, @Body() { items }: CreateDeliveryBody) {
     const clientId = req.user;
