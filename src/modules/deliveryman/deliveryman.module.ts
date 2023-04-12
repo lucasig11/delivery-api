@@ -13,5 +13,6 @@ import { PrismaDeliverymanRepository } from './repositories/prisma/prisma-delive
     PrismaService,
     { provide: DeliverymanRepository, useClass: PrismaDeliverymanRepository },
   ],
+  exports: [DeliverymanService],
 })
 export class DeliverymanModule {}
