@@ -1,8 +1,8 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Request } from 'express';
 import { AuthGuard } from '../auth/auth.guard';
 import { DeliveryService } from './delivery.service';
 
-type CreateDeliveryRequest = Request & { user: string };
 type CreateDeliveryBody = { items: string[] };
 
 @Controller('delivery')
@@ -11,13 +11,11 @@ export class DeliveryController {
 
   @Post()
   @UseGuards(AuthGuard)
-  async create(
-    @Request() { user }: CreateDeliveryRequest,
-    @Body() { items }: CreateDeliveryBody,
-  ) {
+  async create(@Req() req: Request, @Body() { items }: CreateDeliveryBody) {
+    const clientId = req.user;
     return this.deliveryService.create({
       items,
-      clientId: user,
+      clientId,
     });
   }
 }
