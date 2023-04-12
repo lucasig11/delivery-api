@@ -34,7 +34,7 @@ model Delivery {
   items         String[]
   clientId      String
   client        Client       @relation(fields: [clientId], references: [id])
-  deliverymanId String
+  deliverymanId String?
   deliveryman   Deliveryman? @relation(fields: [deliverymanId], references: [id])
   createdAt     DateTime     @default(now())
   endedAt       DateTime?
