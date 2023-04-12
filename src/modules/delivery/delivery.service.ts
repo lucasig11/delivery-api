@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Delivery } from '@prisma/client';
-import { CreateDeliveryDTO } from './dto/save-delivery.dto';
+import { CreateDeliveryDTO } from './dto/create-delivery.dto';
 import { DeliveryRepository } from './repositories/delivery-repository';
 
 @Injectable()
