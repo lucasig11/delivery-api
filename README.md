@@ -4,7 +4,12 @@
 
 ## Description
 
-API built with [Nest](https://github.com/nestjs/nest) and [Prisma](https://prisma.io).
+Bonus content on Prisma from Rocketseat's [Ignite](https://rocketseat.com.br/ignite) course.
+
+## Technologies
+- [Nest](https://github.com/nestjs/nest)
+- [Prisma](https://prisma.io)
+- [Docker](https://docker.com)
 
 ## Installation
 
