@@ -4,27 +4,29 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { Role } from './auth.decorator';
 import { jwtConstants } from './constants';
 
 type Payload = { sub: string };
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService) {}
+  constructor(private jwtService: JwtService, private reflector: Reflector) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    const role = this.reflector.get<Role>('role', context.getHandler());
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if (!token) {
       throw new UnauthorizedException('Missing token.');
     }
     try {
-      const { sub } = this.jwtService.verify(token, {
-        secret: jwtConstants.secret,
-      }) as Payload;
-      request['user'] = sub;
+      const secret = jwtConstants[`${role}Secret`];
+      const { sub } = this.jwtService.verify(token, { secret }) as Payload;
+      request[role + 'Id'] = sub;
     } catch {
       throw new UnauthorizedException('Invalid token.');
     }

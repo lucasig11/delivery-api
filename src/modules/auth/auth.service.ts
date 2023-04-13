@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { compareSync } from 'bcrypt';
 import { ClientService } from '../client/client.service';
 import { DeliverymanService } from '../deliveryman/deliveryman.service';
+import { jwtConstants } from './constants';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +19,10 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials.');
     }
 
-    return this.jwtService.sign({ email }, { subject: client.id });
+    return this.jwtService.sign(
+      { email },
+      { subject: client.id, secret: jwtConstants.clientSecret },
+    );
   }
 
   async validateDeliveryman(email: string, pass: string): Promise<string> {
@@ -27,6 +31,9 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials.');
     }
 
-    return this.jwtService.sign({ email }, { subject: deliveryman.id });
+    return this.jwtService.sign(
+      { email },
+      { subject: deliveryman.id, secret: jwtConstants.deliverymanSecret },
+    );
   }
 }

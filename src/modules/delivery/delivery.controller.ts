@@ -9,6 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
+import { Auth } from '../auth/auth.decorator';
 import { AuthGuard } from '../auth/auth.guard';
 import { DeliveryService } from './delivery.service';
 
@@ -21,8 +22,9 @@ export class DeliveryController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @UseGuards(AuthGuard)
+  @Auth('client')
   async create(@Req() req: Request, @Body() { items }: CreateDeliveryBody) {
-    const clientId = req.user;
+    const clientId = req.clientId;
     return this.deliveryService.create({
       items,
       clientId,
@@ -30,6 +32,8 @@ export class DeliveryController {
   }
 
   @Get('available')
+  @UseGuards(AuthGuard)
+  @Auth('deliveryman')
   async findAvailable() {
     return this.deliveryService.findAvailable();
   }

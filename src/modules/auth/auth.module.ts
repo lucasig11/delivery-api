@@ -4,7 +4,6 @@ import { ClientModule } from '../client/client.module';
 import { DeliverymanModule } from '../deliveryman/deliveryman.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { jwtConstants } from './constants';
 
 @Module({
   imports: [
@@ -12,7 +11,6 @@ import { jwtConstants } from './constants';
     DeliverymanModule,
     JwtModule.register({
       global: true,
-      secret: jwtConstants.secret,
       signOptions: { expiresIn: '1d' },
     }),
   ],
