@@ -24,4 +24,14 @@ export class FakeDeliveryRepository implements DeliveryRepository {
         delivery.deliverymanId === null && delivery.endedAt === null,
     );
   }
+
+  async save(delivery: Delivery): Promise<Delivery> {
+    const index = this.repository.findIndex((item) => item.id === delivery.id);
+    this.repository[index] = delivery;
+    return delivery;
+  }
+
+  async findById(id: string): Promise<Delivery | null> {
+    return this.repository.find((item) => item.id === id) || null;
+  }
 }

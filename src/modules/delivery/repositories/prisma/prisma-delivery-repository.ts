@@ -25,4 +25,21 @@ export class PrismaDeliveryRepository implements DeliveryRepository {
       },
     });
   }
+
+  async findById(id: string): Promise<Delivery | null> {
+    return this.prisma.delivery.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+
+  async save(delivery: Delivery): Promise<Delivery> {
+    return this.prisma.delivery.update({
+      where: {
+        id: delivery.id,
+      },
+      data: delivery,
+    });
+  }
 }
